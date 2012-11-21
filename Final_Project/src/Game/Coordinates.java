@@ -14,5 +14,9 @@ public abstract class Coordinates {
 		this.xCoordinate = xCoordinate;
 		this.yCoordinate = yCoordinate;
 	}
-
+	
+	public void setXY(double x, double y) {
+		xCoordinate = x;
+		yCoordinate = y;
+	}
 }

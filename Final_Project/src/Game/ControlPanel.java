@@ -14,11 +14,12 @@ public class ControlPanel extends JPanel {
 	JTextField forceInput = new JTextField(5);
 	JTextField angleInput = new JTextField(5);
 	JButton launchButton = new JButton("Launch");
+	JButton pathButton = new JButton("Draw Path");
 	
 	public ControlPanel(Game game) {
 		this.game = game;
 		
-		add(new JLabel("Force (m/s): "));
+		add(new JLabel("Velocity (m/s): "));
 		add(forceInput);
 		add(new JLabel("Angle (degrees): "));
 		add(angleInput);
@@ -36,9 +37,14 @@ public class ControlPanel extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int velocity = Integer.valueOf(forceInput.getText());
-			int angle = Integer.valueOf(angleInput.getText());
-			game.launch(angle, velocity);
+			if (e.getSource() == launchButton) {
+				int velocity = Integer.valueOf(forceInput.getText());
+				int angle = Integer.valueOf(angleInput.getText());
+				game.launch(angle, velocity);
+			}
+			if (e.getSource() == pathButton) {
+				game.drawPath();
+			}
 			
 		}
 	}

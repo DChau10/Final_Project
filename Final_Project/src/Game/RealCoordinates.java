@@ -6,9 +6,9 @@ public class RealCoordinates extends Coordinates {
 		super(xCoordinate, yCoordinate);
 	}
 	
-	public void setXY(double x, double y) {
-		xCoordinate = x;
-		yCoordinate = y;
-	}
+//	public void setXY(double x, double y) {
+//		super.xCoordinate = x;
+//		super.yCoordinate = y;
+//	}
 
 }

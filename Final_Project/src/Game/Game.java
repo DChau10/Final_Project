@@ -14,7 +14,7 @@ public class Game extends JPanel {
 	int numTries;
 	Hoop hoop;
 	ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-	public Launcher launcher = new Launcher(45, 45, projectiles);
+	public Launcher launcher = new Launcher();
 	PixelCoordinates origin = new PixelCoordinates(new RealCoordinates(0, 0));
 	
 	public Game() {
@@ -29,7 +29,8 @@ public class Game extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		//super.paintComponent(g);
+
 		
 		//draw origin
 		g.setColor(Color.BLUE);
@@ -41,7 +42,7 @@ public class Game extends JPanel {
 		
 		//remove projectile if off screen
 		for (int i = 0; i < launcher.getProjectiles().size(); i++) {
-			if (launcher.getProjectiles().get(i).getCurrentPosition().yCoordinate < 0) {
+			if (launcher.getProjectiles().get(i).getCurrentPosition().yCoordinate <= 0) {
 				launcher.removeProjectiles(i);
 				System.out.println("Projectile: " + i + " removed");
 				i = 0;
@@ -56,6 +57,9 @@ public class Game extends JPanel {
 		launcher.addProjectiles(new Projectile(angle, velocity));
 	}
 	
+	public void drawPath() {
+		
+	}
 	public boolean checkCollision() {
 		return false;
 	}	

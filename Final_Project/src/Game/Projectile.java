@@ -3,11 +3,18 @@ package Game;
 import java.awt.*;
 import java.util.ArrayList;
 
+
 public class Projectile {
 	private int x, y;
 	private int angle, velocity;
 	private RealCoordinates initialPosition, currentPosition;
 	private double timeElapsed;
+	private ArrayList<Double> velocityComponents;
+	
+	public Projectile() {
+		setInitialPositions(new RealCoordinates(0, 0));
+		timeElapsed = 0;
+	}
 	
 	public Projectile(int angle, int velocity) {
 		this.angle = angle;
@@ -40,13 +47,18 @@ public class Projectile {
 		this.y = y;
 	}
 	
-	public void incrementTimeBy(double timestep, ArrayList<Double> velocityComponents) {
+	public void setVelocityComponents(ArrayList<Double> velocityComponents) {
+		this.velocityComponents = velocityComponents;
+	}
+	
+	public void incrementTimeBy(double timestep) {
 		timeElapsed += timestep;
 		// update position
 		double xCoordinate = velocityComponents.get(0) * timeElapsed + initialPosition.xCoordinate;
 		double yCoordinate = velocityComponents.get(1) * timeElapsed + 0.5 * (-9.8) * Math.pow(timeElapsed, 2) + initialPosition.yCoordinate;
 		System.out.println("Time: " + timeElapsed + "( " + xCoordinate + " , " + yCoordinate + " )");
-		currentPosition.setXY(xCoordinate, yCoordinate);
+		//currentPosition.setXY(xCoordinate, yCoordinate);
+		currentPosition = new RealCoordinates(xCoordinate, yCoordinate);
 	}
 	
 	public void setCurrentPosition(RealCoordinates coordinates) {
