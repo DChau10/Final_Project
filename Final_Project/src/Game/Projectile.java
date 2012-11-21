@@ -8,7 +8,7 @@ public class Projectile {
 	private int x, y;
 	private int angle, velocity;
 	private RealCoordinates initialPosition, currentPosition;
-	private double timeElapsed;
+	protected double timeElapsed;
 	private ArrayList<Double> velocityComponents;
 	
 	public Projectile() {
@@ -28,24 +28,10 @@ public class Projectile {
 		currentPosition = position;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-
-	public int getY() {
-		return y;
-	}
-
-
-	public void setY(int y) {
-		this.y = y;
-	}
+	public int getX() { return x; }
+	public void setX(int x) { this.x = x; }
+	public int getY() { return y; }
+	public void setY(int y) { this.y = y; }
 	
 	public void setVelocityComponents(ArrayList<Double> velocityComponents) {
 		this.velocityComponents = velocityComponents;
@@ -54,11 +40,12 @@ public class Projectile {
 	public void incrementTimeBy(double timestep) {
 		timeElapsed += timestep;
 		// update position
+		currentPosition = calculatePosition();
+	}
+	protected RealCoordinates calculatePosition() {
 		double xCoordinate = velocityComponents.get(0) * timeElapsed + initialPosition.xCoordinate;
 		double yCoordinate = velocityComponents.get(1) * timeElapsed + 0.5 * (-9.8) * Math.pow(timeElapsed, 2) + initialPosition.yCoordinate;
-		System.out.println("Time: " + timeElapsed + "( " + xCoordinate + " , " + yCoordinate + " )");
-		//currentPosition.setXY(xCoordinate, yCoordinate);
-		currentPosition = new RealCoordinates(xCoordinate, yCoordinate);
+		return new RealCoordinates(xCoordinate, yCoordinate);
 	}
 	
 	public void setCurrentPosition(RealCoordinates coordinates) {

@@ -7,22 +7,32 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class ControlPanel extends JPanel {
 
 	Game game;
-	JTextField forceInput = new JTextField(5);
-	JTextField angleInput = new JTextField(5);
+	JSlider forceSliderInput = new JSlider(5, 50);
+	JSlider angleSliderInput = new JSlider(5, 85);
+//	JTextField forceInput = new JTextField(5);
+//	JTextField angleInput = new JTextField(5);
 	JButton launchButton = new JButton("Launch");
-	JButton pathButton = new JButton("Draw Path");
+	SliderListener sliderListener = new SliderListener();
 	
 	public ControlPanel(Game game) {
 		this.game = game;
 		
 		add(new JLabel("Velocity (m/s): "));
-		add(forceInput);
+		forceSliderInput.setMajorTickSpacing(5);
+		forceSliderInput.setPaintTicks(true);
+		forceSliderInput.addChangeListener(sliderListener);
+		add(forceSliderInput);
 		add(new JLabel("Angle (degrees): "));
-		add(angleInput);
+		angleSliderInput.setMajorTickSpacing(5);
+		angleSliderInput.setPaintTicks(true);
+		angleSliderInput.addChangeListener(sliderListener);
+		add(angleSliderInput);
 		launchButton.addActionListener(new ButtonListener());
 		add(launchButton);
 		
@@ -38,14 +48,16 @@ public class ControlPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == launchButton) {
-				int velocity = Integer.valueOf(forceInput.getText());
-				int angle = Integer.valueOf(angleInput.getText());
+				int velocity = Integer.valueOf(forceSliderInput.getValue());
+				int angle = Integer.valueOf(angleSliderInput.getValue());
 				game.launch(angle, velocity);
 			}
-			if (e.getSource() == pathButton) {
-				game.drawPath();
-			}
-			
+		}
+	}
+	
+	private class SliderListener implements ChangeListener {
+		public void stateChanged(ChangeEvent e) {
+			game.updatePath(angleSliderInput.getValue(), forceSliderInput.getValue());
 		}
 	}
 }

@@ -13,9 +13,9 @@ public class Game extends JPanel {
 	
 	int numTries;
 	Hoop hoop;
-	ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public Launcher launcher = new Launcher();
 	PixelCoordinates origin = new PixelCoordinates(new RealCoordinates(0, 0));
+	ProjectilePath projectilePath = new ProjectilePath(45, 25);
 	
 	public Game() {
 		// init
@@ -29,18 +29,20 @@ public class Game extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g) {
-		//super.paintComponent(g);
+		super.paintComponent(g);
 
-		
-		//draw origin
+		// draw origin
 		g.setColor(Color.BLUE);
 		g.drawLine((int) origin.xCoordinate - 50, (int) origin.yCoordinate, (int) origin.xCoordinate + 875, (int) origin.yCoordinate);
 		g.drawLine((int) origin.xCoordinate, (int) origin.yCoordinate + 50, (int) origin.xCoordinate, (int) origin.yCoordinate - 500);
 		
-		//draw each projectile
+		// draw path
+		projectilePath.draw(g);
+		
+		// draw each projectile
 		launcher.DrawProjectile(g);
 		
-		//remove projectile if off screen
+		// remove projectile if off screen
 		for (int i = 0; i < launcher.getProjectiles().size(); i++) {
 			if (launcher.getProjectiles().get(i).getCurrentPosition().yCoordinate <= 0) {
 				launcher.removeProjectiles(i);
@@ -50,16 +52,14 @@ public class Game extends JPanel {
 		}
 	}
 	
-	
-	
 	public void launch(int angle, int velocity) {
 		launcher.calculateVelocity(velocity, angle);
 		launcher.addProjectiles(new Projectile(angle, velocity));
 	}
-	
-	public void drawPath() {
-		
+	public void updatePath(int angle, int velocity) {
+		projectilePath.recalculatePath(angle, velocity);
 	}
+	
 	public boolean checkCollision() {
 		return false;
 	}	
