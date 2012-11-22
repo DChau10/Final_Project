@@ -6,12 +6,12 @@ import java.awt.*;
 public class Launcher {
 	
 	private int initialVelocity, angle;
-	private int x, y;
-	private double timeElapsed;
+//	private int x, y;
+//	private double timeElapsed;
 //	private Projectile projectile;
 	private ArrayList<Projectile> projectiles;
-	private ArrayList<Double> velocityComponents;
-	private RealCoordinates initialPosition, currentPosition;
+//	private ArrayList<Double> velocityComponents;
+//	private RealCoordinates initialPosition, currentPosition;
 	
 	//constructor
 	public Launcher() {
@@ -21,10 +21,7 @@ public class Launcher {
 	public Launcher(int angle, int velocity, ArrayList<Projectile> projectiles) {
 		this.angle = angle;
 		this.projectiles = projectiles;
-		initialVelocity = velocity;
-//		velocityComponents = calculateVelocity(velocity, angle);
-//		setInitialPosition(new RealCoordinates(0, 0));
-		
+		initialVelocity = velocity;		
 	}
 
 	//set initial positions
@@ -34,15 +31,15 @@ public class Launcher {
 //	}
 	
 	//find velocity components
-	public void calculateVelocity(int initialVelocity, int angle) {
-		velocityComponents = new ArrayList<Double>();
-		
-		double angle_radians = Math.toRadians(angle);
-		velocityComponents.add((initialVelocity * Math.cos(angle_radians)));
-		velocityComponents.add((initialVelocity * Math.sin(angle_radians)));
-		
-	//	return velocityComponents;
-	}
+//	public void calculateVelocity(int initialVelocity, int angle) {
+//		velocityComponents = new ArrayList<Double>();
+//		
+//		double angle_radians = Math.toRadians(angle);
+//		velocityComponents.add((initialVelocity * Math.cos(angle_radians)));
+//		velocityComponents.add((initialVelocity * Math.sin(angle_radians)));
+//		
+//	//	return velocityComponents;
+//	}
 	
 //	public void incrementTimeBy(double timestep) {
 //		timeElapsed += timestep;
@@ -74,7 +71,7 @@ public class Launcher {
 	
 	public void addProjectiles(Projectile projectile) {
 		projectiles.add(projectile);
-		projectiles.get(projectiles.size()-1).setVelocityComponents(velocityComponents);
+	//	projectiles.get(projectiles.size()-1).setVelocityComponents(velocityComponents);
 	}
 	
 	public void removeProjectiles(int index) {
@@ -93,6 +90,7 @@ public class Launcher {
 		int i = 0;
 		for (Projectile projectile : projectiles) {
 			projectile.Draw(g);
+			projectile.drawFollowPath(g);
 			System.out.println("Projectile: " + i + " should draw");
 			i++;
 		}

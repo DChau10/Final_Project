@@ -1,6 +1,5 @@
 package Game;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +11,8 @@ import javax.swing.event.ChangeListener;
 
 public class ControlPanel extends JPanel {
 
+	
+	private static final long serialVersionUID = 1L;
 	Game game;
 	JSlider forceSliderInput = new JSlider(5, 50);
 	JSlider angleSliderInput = new JSlider(5, 85);
