@@ -50,19 +50,25 @@ public class Launcher {
 //	}
 	
 	//determine where the projectile will land
-	public ArrayList<Integer> calculateDestination() {
+	public ArrayList<Integer> calculateDestination(Projectile projectile) {
 		ArrayList<Integer> temp = new ArrayList<Integer>();
-		temp.add(1);
-		temp.add(2);
+		double time = 2 * (projectile.getVelocityComponents().get(1)) * 9.8;
+		
+		temp.add((int) (projectile.getVelocityComponents().get(0) * time));
+		temp.add((int) (projectile.getVelocityComponents().get(1) * time - .5*9.82*time*time));
+		
 		return temp;
 	}
 	
-	public int calculateAngle(int initialVelocity, Target target) {
-		return 0;
+	public double calculateAngle(int initialVelocity, Target target) {
+	
+		double angle = Math.asin((double)target.getX() * 9.8 / (double)(initialVelocity * initialVelocity)) / 2.0 ;
+		return Math.toDegrees(angle);
 	}
 	
-	public int calculateInitialVelocity(int angle, Target target) {
-		return 0;
+	public double calculateInitialVelocity(int angle, Target target) {
+		double velocity = Math.sqrt( target.getX() * 9.8 / Math.sin(Math.toRadians(angle * 2)));
+		return velocity;
 	}
 	
 	public ArrayList<Projectile> getProjectiles() {
@@ -91,7 +97,7 @@ public class Launcher {
 		for (Projectile projectile : projectiles) {
 			projectile.Draw(g);
 			projectile.drawFollowPath(g);
-			System.out.println("Projectile: " + i + " should draw");
+	//		System.out.println("Projectile: " + i + " should draw");
 			i++;
 		}
 	}	

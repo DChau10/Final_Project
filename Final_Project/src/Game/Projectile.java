@@ -5,7 +5,11 @@ import java.util.ArrayList;
 
 
 public class Projectile {
-	private int x, y;
+	
+	// real coordinates
+	static final int PROJECTILE_SIZE = 1;
+	
+	private int x, y, radius;
 	private int angle, velocity;
 	private int drawIncrement;
 	private RealCoordinates initialPosition, currentPosition;
@@ -25,6 +29,9 @@ public class Projectile {
 		calculateVelocity(velocity, angle);
 		timeElapsed = 0;
 		drawIncrement = 0;
+		radius = PROJECTILE_SIZE;
+		PixelCoordinates pixelCoordOrigin = new PixelCoordinates(new RealCoordinates(0,0));
+		radius = (int)pixelCoordOrigin.getPixelLength(radius);
 	}
 	
 	public void setInitialPositions(RealCoordinates position) {
@@ -39,6 +46,10 @@ public class Projectile {
 	
 	public void setVelocityComponents(ArrayList<Double> velocityComponents) {
 		this.velocityComponents = velocityComponents;
+	}
+	
+	public ArrayList<Double> getVelocityComponents() {
+		return velocityComponents;
 	}
 	
 	public void incrementTimeBy(double timestep) {
@@ -61,6 +72,11 @@ public class Projectile {
 			trajectory.add(new PixelCoordinates(position));
 		}
 	}
+	
+	public ArrayList<PixelCoordinates> getTrajectory() {
+		return trajectory;
+	}
+	
 	public void calculateVelocity(int initialVelocity, int angle) {
 		velocityComponents = new ArrayList<Double>();
 		
@@ -82,7 +98,20 @@ public class Projectile {
 	public void Draw(Graphics g) {
 		PixelCoordinates pixelCoords = new PixelCoordinates(currentPosition);
 		g.setColor(Color.BLACK);
-		g.fillOval((int) pixelCoords.xCoordinate - 2, (int) pixelCoords.yCoordinate - 2, 4, 4);
+		g.fillOval((int) pixelCoords.xCoordinate - radius, (int) pixelCoords.yCoordinate - radius, radius * 2, radius * 2);
+
+		
+//		g.setColor(Color.ORANGE);
+//		g.fillOval((int)currentPosition.xCoordinate - radius, (int)currentPosition.yCoordinate - radius, radius*2, radius*2);
+		
+		// draw bounding box DEBUGNESS
+		PixelCoordinates z = new PixelCoordinates(new RealCoordinates(getBounds().x, getBounds().y));
+		g.drawRect((int)z.xCoordinate, (int)z.yCoordinate, radius * 2, radius * 2);
+		
+//		Rectangle shenanigans = getBounds();
+//		PixelCoordinates dos = new PixelCoordinates(new RealCoordinates(shenanigans.x, shenanigans.y));
+//		g.setColor(Color.RED);
+//		g.fillRect((int) dos.xCoordinate, (int)dos.yCoordinate, radius*2, radius*2);
 	}
 	
 	public void drawFollowPath(Graphics g) {
@@ -90,5 +119,12 @@ public class Projectile {
 		for (PixelCoordinates pixelCoordinates : trajectory) {
 			g.fillOval((int) pixelCoordinates.xCoordinate - 1, (int) pixelCoordinates.yCoordinate - 1, 2, 2);
 		}
+	}
+	
+	public Rectangle getBounds() {
+		//System.out.println(((int)currentPosition.xCoordinate - radius) + "  " +  ((int)currentPosition.yCoordinate - radius) + "  ,  " + 
+				//((int)currentPosition.xCoordinate + radius) + "  " +  ((int)currentPosition.yCoordinate + radius));
+		return new Rectangle((int)(currentPosition.xCoordinate - PROJECTILE_SIZE), (int)(currentPosition.yCoordinate - PROJECTILE_SIZE), PROJECTILE_SIZE*2, PROJECTILE_SIZE*2);
+				//(int)currentPosition.xCoordinate + radius, (int)currentPosition.yCoordinate + radius);
 	}
 }

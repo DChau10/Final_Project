@@ -1,8 +1,10 @@
 package Game;
 
+import java.awt.Graphics;
+
 public abstract class Target  {
 	
-	private int x, y;
+	protected int x, y;
 	
 	
 	public Target(int x, int y) {
@@ -18,7 +20,7 @@ public abstract class Target  {
 		return 0;
 	}
 	
-	public void Draw() {
+	public void Draw(Graphics g) {
 		
 	}
 }

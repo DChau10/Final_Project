@@ -16,8 +16,8 @@ public class ControlPanel extends JPanel {
 	Game game;
 	JSlider forceSliderInput = new JSlider(5, 50);
 	JSlider angleSliderInput = new JSlider(5, 85);
-//	JTextField forceInput = new JTextField(5);
-//	JTextField angleInput = new JTextField(5);
+	JTextField forceInput = new JTextField(5);
+	JTextField angleInput = new JTextField(5);
 	JButton launchButton = new JButton("Launch");
 	SliderListener sliderListener = new SliderListener();
 	
@@ -37,6 +37,9 @@ public class ControlPanel extends JPanel {
 		launchButton.addActionListener(new ButtonListener());
 		add(launchButton);
 		
+		add(forceInput);
+		add(angleInput);
+		
 		// set border
 		setBorder(new TitledBorder(new EtchedBorder(), "Control Panel"));
 		
@@ -52,6 +55,7 @@ public class ControlPanel extends JPanel {
 				int velocity = Integer.valueOf(forceSliderInput.getValue());
 				int angle = Integer.valueOf(angleSliderInput.getValue());
 				game.launch(angle, velocity);
+			//	game.launch(Integer.parseInt(angleInput.getText()), Integer.parseInt(forceInput.getText()));
 			}
 		}
 	}

@@ -7,7 +7,8 @@ import java.util.ArrayList;
 public class ProjectilePath extends Projectile {
 	
 	public ArrayList<PixelCoordinates> path = new ArrayList<PixelCoordinates>();
-
+	public ArrayList<Projectile> pp = new ArrayList<Projectile>();
+	
 	public ProjectilePath(int angle, int velocity, double timestep) {
 		super(angle, velocity);
 		recalculatePath(angle, velocity, timestep);
@@ -30,7 +31,7 @@ public class ProjectilePath extends Projectile {
 
 	
 	public void draw(Graphics g) {
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		for (PixelCoordinates pixelCoordinates : path) {
 			g.fillOval((int) pixelCoordinates.xCoordinate - 1, (int) pixelCoordinates.yCoordinate - 1, 2, 2);
 		}
