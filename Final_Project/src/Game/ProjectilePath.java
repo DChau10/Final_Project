@@ -10,7 +10,9 @@ public class ProjectilePath extends Projectile {
 	public ArrayList<Projectile> pp = new ArrayList<Projectile>();
 	
 	public ProjectilePath(int angle, int velocity, double timestep) {
-		super(angle, velocity);
+	//	super(angle, velocity);
+		super();
+		
 		recalculatePath(angle, velocity, timestep);
 	}
 	
@@ -20,7 +22,7 @@ public class ProjectilePath extends Projectile {
 		calculateVelocity(velocity, angle);
 		timeElapsed = 0;
 		// clean up later
-		for (double i = 0; i < 10; i += timestep) {
+		for (double i = 0; i < 15; i += timestep) {
 			RealCoordinates temp = calculatePosition();
 			if(temp.yCoordinate > 0) {
 				path.add(new PixelCoordinates(temp));
@@ -31,7 +33,7 @@ public class ProjectilePath extends Projectile {
 
 	
 	public void draw(Graphics g) {
-		g.setColor(Color.WHITE);
+		g.setColor(Color.GREEN);
 		for (PixelCoordinates pixelCoordinates : path) {
 			g.fillOval((int) pixelCoordinates.xCoordinate - 1, (int) pixelCoordinates.yCoordinate - 1, 2, 2);
 		}

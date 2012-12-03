@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Projectile {
 	
 	// real coordinates
-	static final int PROJECTILE_SIZE = 1;
+	static final int PROJECTILE_SIZE = 3;
 	
 	private int x, y, radius;
 	private int angle, velocity;
@@ -16,15 +16,17 @@ public class Projectile {
 	protected double timeElapsed;
 	private ArrayList<Double> velocityComponents;
 	private ArrayList<PixelCoordinates> trajectory = new ArrayList<PixelCoordinates>();
+	private Image image;
 	
 	public Projectile() {
 		setInitialPositions(new RealCoordinates(0, 0));
 		timeElapsed = 0;
 	}
 	
-	public Projectile(int angle, int velocity) {
+	public Projectile(int angle, int velocity, Image image) {
 		this.angle = angle;
 		this.velocity = velocity;
+		this.image = image;
 		setInitialPositions(new RealCoordinates(0, 0));
 		calculateVelocity(velocity, angle);
 		timeElapsed = 0;
@@ -98,15 +100,17 @@ public class Projectile {
 	public void Draw(Graphics g) {
 		PixelCoordinates pixelCoords = new PixelCoordinates(currentPosition);
 		g.setColor(Color.BLACK);
-		g.fillOval((int) pixelCoords.xCoordinate - radius, (int) pixelCoords.yCoordinate - radius, radius * 2, radius * 2);
-
+//		g.fillOval((int) pixelCoords.xCoordinate - radius, (int) pixelCoords.yCoordinate - radius, radius * 2, radius * 2);
+//		
+		g.drawImage(image,(int) pixelCoords.xCoordinate - radius, (int)pixelCoords.yCoordinate - radius, radius * 2, radius * 2, null);
+		
 		
 //		g.setColor(Color.ORANGE);
 //		g.fillOval((int)currentPosition.xCoordinate - radius, (int)currentPosition.yCoordinate - radius, radius*2, radius*2);
 		
 		// draw bounding box DEBUGNESS
-		PixelCoordinates z = new PixelCoordinates(new RealCoordinates(getBounds().x, getBounds().y));
-		g.drawRect((int)z.xCoordinate, (int)z.yCoordinate, radius * 2, radius * 2);
+//		PixelCoordinates z = new PixelCoordinates(new RealCoordinates(getBounds().x, getBounds().y));
+//		g.drawRect((int)z.xCoordinate, (int)z.yCoordinate, radius * 2, radius * 2);
 		
 //		Rectangle shenanigans = getBounds();
 //		PixelCoordinates dos = new PixelCoordinates(new RealCoordinates(shenanigans.x, shenanigans.y));

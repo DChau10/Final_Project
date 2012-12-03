@@ -9,7 +9,7 @@ public class PixelCoordinates extends Coordinates {
 //	public static final int RESOLUTION_Y = 640;	
 	
 	public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	private double scale = screenSize.getHeight() * .005;
+	private double scale = screenSize.getHeight() * .0035;
 	
 	public PixelCoordinates(RealCoordinates realCoordinates) {
 		super();
@@ -17,12 +17,11 @@ public class PixelCoordinates extends Coordinates {
 //		yCoordinate = ((realCoordinates.yCoordinate * PIXELS_TO_METERS_RATIO)) + 100;
 		
 		
-		xCoordinate = realCoordinates.xCoordinate * scale + 100;
-		yCoordinate = realCoordinates.yCoordinate * scale + 100;
+		xCoordinate = realCoordinates.xCoordinate * scale + 15 * scale;
+		yCoordinate = realCoordinates.yCoordinate * scale + 15 * scale;
 	}
 	
 	public double getPixelLength(int length) {
 		return length * scale;
 	}
-
 }

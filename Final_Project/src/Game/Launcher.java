@@ -5,23 +5,23 @@ import java.awt.*;
 
 public class Launcher {
 	
-	private int initialVelocity, angle;
+	private int angle;
 //	private int x, y;
 //	private double timeElapsed;
 //	private Projectile projectile;
 	private ArrayList<Projectile> projectiles;
 //	private ArrayList<Double> velocityComponents;
 //	private RealCoordinates initialPosition, currentPosition;
-	
+	private Image image;
 	//constructor
 	public Launcher() {
 		projectiles = new ArrayList<Projectile>();
 	}
 	
-	public Launcher(int angle, int velocity, ArrayList<Projectile> projectiles) {
-		this.angle = angle;
-		this.projectiles = projectiles;
-		initialVelocity = velocity;		
+	public Launcher(Image image) {
+		projectiles = new ArrayList<Projectile>();
+		this.image = image;	
+		angle = 45;
 	}
 
 	//set initial positions
@@ -83,8 +83,29 @@ public class Launcher {
 	public void removeProjectiles(int index) {
 		projectiles.remove(index);
 	}
+	
+	public void updateAngle(int angle) {
+		this.angle = angle;
+	}
+	
 	public void DrawLauncher(Graphics g) {
-
+		Graphics2D g2d = (Graphics2D) g;
+		
+		g.setColor(Color.BLACK);
+		PixelCoordinates origin = new PixelCoordinates(new RealCoordinates(0, 0));
+		
+		
+		g2d.translate(origin.xCoordinate, origin.yCoordinate);
+		g2d.rotate(Math.toRadians(angle));
+//		g.drawRect((int) (origin.xCoordinate - origin.getPixelLength(10)), (int) (origin.xCoordinate - origin.getPixelLength(10)), 
+//				(int) (origin.getPixelLength(20)), (int) (origin.getPixelLength(20)));
+		g.drawImage(image,(int) (0 - origin.getPixelLength(20)), (int) (0 - origin.getPixelLength(20)), 
+				(int) (origin.getPixelLength(40)), (int) (origin.getPixelLength(40)), null);
+		
+		
+		g2d.rotate(Math.toRadians(360 -angle));
+		g2d.translate(-origin.xCoordinate, -origin.yCoordinate);
+	//	g.drawImage(image, x, y, width, height, observer)
 	}
 	
 	public void incrementProjectileTime(double time) {

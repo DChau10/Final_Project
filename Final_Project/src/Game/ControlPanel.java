@@ -14,11 +14,13 @@ public class ControlPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	Game game;
-	JSlider forceSliderInput = new JSlider(5, 50);
+	JSlider forceSliderInput = new JSlider(5, 80);
 	JSlider angleSliderInput = new JSlider(5, 85);
 	JTextField forceInput = new JTextField(5);
 	JTextField angleInput = new JTextField(5);
 	JButton launchButton = new JButton("Launch");
+	JButton generateButton = new JButton("Generate Targets");
+	JButton pathButton = new JButton("Show Path");
 	SliderListener sliderListener = new SliderListener();
 	
 	public ControlPanel(Game game) {
@@ -36,6 +38,8 @@ public class ControlPanel extends JPanel {
 		add(angleSliderInput);
 		launchButton.addActionListener(new ButtonListener());
 		add(launchButton);
+		generateButton.addActionListener(new ButtonListener());
+		add(generateButton);
 		
 		add(forceInput);
 		add(angleInput);
@@ -57,12 +61,20 @@ public class ControlPanel extends JPanel {
 				game.launch(angle, velocity);
 			//	game.launch(Integer.parseInt(angleInput.getText()), Integer.parseInt(forceInput.getText()));
 			}
+			if (e.getSource() == generateButton) {
+				game.generateTargets();
+			}
+			if (e.getSource() == pathButton) {
+				
+			}
 		}
 	}
 	
 	private class SliderListener implements ChangeListener {
 		public void stateChanged(ChangeEvent e) {
 			game.updatePath(angleSliderInput.getValue(), forceSliderInput.getValue());
+			game.launcher.updateAngle(angleSliderInput.getValue());
 		}
+		
 	}
 }
