@@ -16,7 +16,7 @@ import javax.swing.*;
 public class Game extends JPanel {	
 			
 	private static final long serialVersionUID = 1L;
-	final double TIME = (1000.0 / 60.0) / 1000.0;
+	public static final double TIME = (1000.0 / 60.0) / 1000.0;
 	int numTries;
 	public boolean collided = false;
 //	Block box = new Block(170, 0, 100, 70);
@@ -27,6 +27,7 @@ public class Game extends JPanel {
 	
 	ArrayList<ArrayList<PixelCoordinates>> paths = new ArrayList<ArrayList<PixelCoordinates>>();
 	ArrayList<Block> targets = new ArrayList<Block>();
+	ArrayList<Pow> pows = new ArrayList<Pow>();
 	
 	Random randomGenerator = new Random();
 	Image background, cannonball, crate, pow, cannon;
@@ -75,6 +76,17 @@ public class Game extends JPanel {
 		// draw each projectile
 		launcher.DrawProjectile(g);
 		
+		// draw pows
+		for (Pow pow : pows) {
+			pow.draw(g);
+		}
+		// remove pows if dead
+		for (int i = 0; i < pows.size(); ++i) {
+			if (pows.get(i).isDead()) {
+				pows.remove(i);
+				i = 0;
+			}
+		}
 		
 		// remove projectile if off screen
 		for (int i = 0; i < launcher.getProjectiles().size(); i++) {
@@ -156,7 +168,14 @@ public class Game extends JPanel {
 					
 					paths.add(launcher.getProjectiles().get(i).getTrajectory());				
 					
-					Projectile testProjectile = launcher.getProjectiles().get(i);				
+					// Start POW animation
+					
+					RealCoordinates someRealCoords = launcher.getProjectiles().get(i).getCurrentPosition();
+					pows.add(new Pow(someRealCoords, pow));
+					
+					// End POW animation
+					
+//					Projectile testProjectile = launcher.getProjectiles().get(i);				
 					
 	//				System.out.println(testProjectile.getBounds().x + " " + testProjectile.getBounds().y + " , " + testProjectile.getBounds().width + "  " + testProjectile.getBounds().height);
 	//				System.out.println(boundsForShot.x + " " + boundsForShot.y + " , " + boundsForShot.width + "  " + boundsForShot.height);
@@ -164,6 +183,8 @@ public class Game extends JPanel {
 					
 					launcher.removeProjectiles(i);
 					targets.remove(j);
+					
+
 					return true;				
 				}
 			}
@@ -171,16 +192,16 @@ public class Game extends JPanel {
 		return false;
 	}	
 	
-	public boolean checkPreLaunchCollision(Block target) {
-		for (int i = 0; i < projectilePath.pp.size(); i++) {
-			if (projectilePath.pp.get(i).getBounds().intersects(target.getBounds())) {
-				System.out.println("Heyo");
-				return true;
-			}
-		}
-		return false;
-		
-	}
+//	public boolean checkPreLaunchCollision(Block target) {
+//		for (int i = 0; i < projectilePath.pp.size(); i++) {
+//			if (projectilePath.pp.get(i).getBounds().intersects(target.getBounds())) {
+//				System.out.println("Heyo");
+//				return true;
+//			}
+//		}
+//		return false;
+//		
+//	}
 //	public boolean checkHoop(Projectile projectile, Target target) {
 //		if (checkCollision()) 
 //			return true;
