@@ -12,8 +12,8 @@ public class DisplayPanel extends JFrame {
 	public DisplayPanel() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Fire ze missiles!");
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(screenSize);
+	//	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize(Game.screenSize);
 		setResizable(false);
 		
 		game = new Game();

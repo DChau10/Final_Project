@@ -8,7 +8,7 @@ import java.awt.Image;
 public class Pow {
 	
 	RealCoordinates currentPosition;
-	double lifeTimer = 3.0;
+	double lifeTimer = 1.0;
 	Image image;
 
 	public Pow(RealCoordinates currentPosition, Image image) {

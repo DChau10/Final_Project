@@ -99,8 +99,8 @@ public class Launcher {
 		g2d.rotate(Math.toRadians(angle));
 //		g.drawRect((int) (origin.xCoordinate - origin.getPixelLength(10)), (int) (origin.xCoordinate - origin.getPixelLength(10)), 
 //				(int) (origin.getPixelLength(20)), (int) (origin.getPixelLength(20)));
-		g.drawImage(image,(int) (0 - origin.getPixelLength(20)), (int) (0 - origin.getPixelLength(20)), 
-				(int) (origin.getPixelLength(40)), (int) (origin.getPixelLength(40)), null);
+		g.drawImage(image,(int) (0 - origin.getPixelLength(30)), (int) (0 - origin.getPixelLength(30)), 
+				(int) (origin.getPixelLength(60)), (int) (origin.getPixelLength(60)), null);
 		
 		
 		g2d.rotate(Math.toRadians(360 -angle));
@@ -116,8 +116,9 @@ public class Launcher {
 	public void DrawProjectile(Graphics g) {
 		int i = 0;
 		for (Projectile projectile : projectiles) {
-			projectile.Draw(g);
+			
 			projectile.drawFollowPath(g);
+			projectile.Draw(g);
 	//		System.out.println("Projectile: " + i + " should draw");
 			i++;
 		}

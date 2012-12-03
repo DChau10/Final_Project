@@ -16,6 +16,9 @@ import javax.swing.*;
 public class Game extends JPanel {	
 			
 	private static final long serialVersionUID = 1L;
+	
+	static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	
 	public static final double TIME = (1000.0 / 60.0) / 1000.0;
 	int numTries;
 	public boolean collided = false;
@@ -23,7 +26,7 @@ public class Game extends JPanel {
 //	Rectangle b = new Rectangle(100, 100, 40, 20);
 	public Launcher launcher;
 	PixelCoordinates origin = new PixelCoordinates(new RealCoordinates(0, 0));
-	ProjectilePath projectilePath = new ProjectilePath(45, 25, TIME);
+	ProjectilePath projectilePath = new ProjectilePath(45, 60, TIME);
 	
 	ArrayList<ArrayList<PixelCoordinates>> paths = new ArrayList<ArrayList<PixelCoordinates>>();
 	ArrayList<Block> targets = new ArrayList<Block>();
@@ -54,7 +57,7 @@ public class Game extends JPanel {
 	
 		// flip along y
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(background, 0, 0, null);
+		g2d.drawImage(background, 0, 0, screenSize.width, screenSize.height, null);
 		g2d.scale(1, -1);
 		g2d.translate(0, -getHeight());		
 		
@@ -70,11 +73,13 @@ public class Game extends JPanel {
 		// draw path
 		projectilePath.draw(g);		
 		
-		//draw launcher
-		launcher.DrawLauncher(g);
+	
 		
 		// draw each projectile
 		launcher.DrawProjectile(g);
+		
+		//draw launcher
+		launcher.DrawLauncher(g);
 		
 		// draw pows
 		for (Pow pow : pows) {
@@ -108,7 +113,7 @@ public class Game extends JPanel {
 	
 	public void loadImages() {
 		background = new ImageIcon(this.getClass().getResource("Background.jpg")).getImage();
-		cannonball = new ImageIcon(this.getClass().getResource("Cannon Ball.png")).getImage();
+		cannonball = new ImageIcon(this.getClass().getResource("nyan.png")).getImage();
 		cannon = new ImageIcon(this.getClass().getResource("Cannon.png")).getImage();
 		pow = new ImageIcon(this.getClass().getResource("Pow.png")).getImage();
 		crate = new ImageIcon(this.getClass().getResource("Crate.png")).getImage();

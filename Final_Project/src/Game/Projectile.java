@@ -3,6 +3,8 @@ package Game;
 import java.awt.*;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
 
 public class Projectile {
 	
@@ -17,6 +19,7 @@ public class Projectile {
 	private ArrayList<Double> velocityComponents;
 	private ArrayList<PixelCoordinates> trajectory = new ArrayList<PixelCoordinates>();
 	private Image image;
+	private Image pathImage;
 	
 	public Projectile() {
 		setInitialPositions(new RealCoordinates(0, 0));
@@ -34,6 +37,8 @@ public class Projectile {
 		radius = PROJECTILE_SIZE;
 		PixelCoordinates pixelCoordOrigin = new PixelCoordinates(new RealCoordinates(0,0));
 		radius = (int)pixelCoordOrigin.getPixelLength(radius);
+		
+		pathImage = new ImageIcon(this.getClass().getResource("RainbowStrip1.png")).getImage();
 	}
 	
 	public void setInitialPositions(RealCoordinates position) {
@@ -70,7 +75,10 @@ public class Projectile {
 	
 	public void updateFollowPath(RealCoordinates position) {
 		drawIncrement++;
-		if (position.yCoordinate > 0 && (drawIncrement % 4) == 0) {
+//		if (position.yCoordinate > 0 && (drawIncrement % 4) == 0) {
+//			trajectory.add(new PixelCoordinates(position));
+//		}
+		if (position.yCoordinate > 0) {
 			trajectory.add(new PixelCoordinates(position));
 		}
 	}
@@ -102,7 +110,7 @@ public class Projectile {
 		g.setColor(Color.BLACK);
 //		g.fillOval((int) pixelCoords.xCoordinate - radius, (int) pixelCoords.yCoordinate - radius, radius * 2, radius * 2);
 //		
-		g.drawImage(image,(int) pixelCoords.xCoordinate - radius, (int)pixelCoords.yCoordinate - radius, radius * 2, radius * 2, null);
+		g.drawImage(image,(int) pixelCoords.xCoordinate - 20, (int)pixelCoords.yCoordinate - 20, 40, 40, null);
 		
 		
 //		g.setColor(Color.ORANGE);
@@ -121,7 +129,9 @@ public class Projectile {
 	public void drawFollowPath(Graphics g) {
 		g.setColor(Color.RED);
 		for (PixelCoordinates pixelCoordinates : trajectory) {
-			g.fillOval((int) pixelCoordinates.xCoordinate - 1, (int) pixelCoordinates.yCoordinate - 1, 2, 2);
+		//	g.fillOval((int) pixelCoordinates.xCoordinate - 1, (int) pixelCoordinates.yCoordinate - 1, 2, 2);
+		//	g.drawImage(pathImage, (int) pixelCoordinates.xCoordinate - radius + 5, (int) pixelCoordinates.yCoordinate - radius + 5, radius*2, radius*2, null);
+			g.drawImage(pathImage, (int) pixelCoordinates.xCoordinate - 18, (int) pixelCoordinates.yCoordinate - 10, 20, 20, null);
 		}
 	}
 	

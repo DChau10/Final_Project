@@ -8,8 +8,8 @@ public class PixelCoordinates extends Coordinates {
 //	public static final double PIXELS_TO_METERS_RATIO = 950.0 / 250.0;
 //	public static final int RESOLUTION_Y = 640;	
 	
-	public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	private double scale = screenSize.getHeight() * .0035;
+	//public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	private double scale = Game.screenSize.getHeight() * .0035;
 	
 	public PixelCoordinates(RealCoordinates realCoordinates) {
 		super();
