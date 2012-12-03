@@ -25,5 +25,7 @@ public class DisplayPanel extends JFrame {
 	
 	public static void main(String[] args) {
 		DisplayPanel display = new DisplayPanel();
+		CPSound sound = new CPSound();
+		sound.run();
 	}
 }
