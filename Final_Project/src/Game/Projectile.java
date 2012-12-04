@@ -13,6 +13,7 @@ public class Projectile {
 	
 	private int x, y, radius;
 	private int angle, velocity;
+	private double currentAngle;
 	private int drawIncrement;
 	private RealCoordinates initialPosition, currentPosition;
 	protected double timeElapsed;
@@ -63,6 +64,8 @@ public class Projectile {
 		timeElapsed += timestep;
 		// update position
 		currentPosition = calculatePosition();
+		currentAngle = calculateAngle(timeElapsed);
+		System.out.println(currentAngle);
 		updateFollowPath(currentPosition);
 	}
 	
@@ -80,6 +83,7 @@ public class Projectile {
 //		}
 		if (position.yCoordinate > 0) {
 			trajectory.add(new PixelCoordinates(position));
+			trajectory.get(trajectory.size()-1).setAngle(currentAngle);
 		}
 	}
 	
@@ -105,12 +109,33 @@ public class Projectile {
 		return currentPosition;
 	}
 	
+	public double getCurrentAngle() {
+		return currentAngle;
+	}
+	
+	public double calculateAngle(double time) {
+		//return Math.toDegrees(Math.atan(((-9.8) * (currentPosition.xCoordinate / velocityComponents.get(0))) + currentPosition.xCoordinate));
+		return Math.toDegrees(Math.atan(((-9.8 / (velocityComponents.get(0) * velocityComponents.get(0))) * currentPosition.xCoordinate + (velocityComponents.get(1) / velocityComponents.get(0)))));
+	}
+	
 	public void Draw(Graphics g) {
 		PixelCoordinates pixelCoords = new PixelCoordinates(currentPosition);
+		Graphics2D g2d = (Graphics2D) g;
+		
+		
 		g.setColor(Color.BLACK);
+//		System.out.println((-9.8) * currentPosition.xCoordinate);
 //		g.fillOval((int) pixelCoords.xCoordinate - radius, (int) pixelCoords.yCoordinate - radius, radius * 2, radius * 2);
 //		
-		g.drawImage(image,(int) pixelCoords.xCoordinate - 20, (int)pixelCoords.yCoordinate - 20, 40, 40, null);
+//		g.drawImage(image,(int) pixelCoords.xCoordinate - 20, (int)pixelCoords.yCoordinate - 20, 40, 40, null);
+		
+		g2d.translate(pixelCoords.xCoordinate, pixelCoords.yCoordinate);
+		g2d.rotate(Math.toRadians(currentAngle));
+		
+		g.drawImage(image, -20, -20, 40, 40, null);
+		
+		g2d.rotate(Math.toRadians(360 - currentAngle));
+		g2d.translate(-pixelCoords.xCoordinate, -pixelCoords.yCoordinate);
 		
 		
 //		g.setColor(Color.ORANGE);
@@ -127,11 +152,20 @@ public class Projectile {
 	}
 	
 	public void drawFollowPath(Graphics g) {
-		g.setColor(Color.RED);
+		Graphics2D g2d = (Graphics2D) g;
+		
 		for (PixelCoordinates pixelCoordinates : trajectory) {
+			g2d.translate(pixelCoordinates.xCoordinate, pixelCoordinates.yCoordinate);
+			g2d.rotate(Math.toRadians(pixelCoordinates.getAngle()));
+			
 		//	g.fillOval((int) pixelCoordinates.xCoordinate - 1, (int) pixelCoordinates.yCoordinate - 1, 2, 2);
 		//	g.drawImage(pathImage, (int) pixelCoordinates.xCoordinate - radius + 5, (int) pixelCoordinates.yCoordinate - radius + 5, radius*2, radius*2, null);
-			g.drawImage(pathImage, (int) pixelCoordinates.xCoordinate - 18, (int) pixelCoordinates.yCoordinate - 10, 20, 20, null);
+			
+		//	g.drawImage(pathImage, (int) pixelCoordinates.xCoordinate - 18, (int) pixelCoordinates.yCoordinate - 10, 20, 20, null);
+			g.drawImage(pathImage, -15, -10, 20, 20, null);
+			
+			g2d.rotate(Math.toRadians(360 - pixelCoordinates.getAngle()));
+			g2d.translate(-pixelCoordinates.xCoordinate, -pixelCoordinates.yCoordinate);
 		}
 	}
 	

@@ -7,6 +7,7 @@ public class PixelCoordinates extends Coordinates {
 	
 //	public static final double PIXELS_TO_METERS_RATIO = 950.0 / 250.0;
 //	public static final int RESOLUTION_Y = 640;	
+	private double angle;
 	
 	//public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	private double scale = Game.screenSize.getHeight() * .0035;
@@ -23,5 +24,13 @@ public class PixelCoordinates extends Coordinates {
 	
 	public double getPixelLength(int length) {
 		return length * scale;
+	}
+	
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+	
+	public double getAngle() {
+		return angle;
 	}
 }

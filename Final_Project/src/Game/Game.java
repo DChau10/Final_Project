@@ -20,8 +20,9 @@ public class Game extends JPanel {
 	static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	public static final double TIME = (1000.0 / 60.0) / 1000.0;
+	CPSound pow_meow = new CPSound();
 	int numTries;
-	public boolean collided = false;
+	public boolean collided = false, generated = false;
 //	Block box = new Block(170, 0, 100, 70);
 //	Rectangle b = new Rectangle(100, 100, 40, 20);
 	public Launcher launcher;
@@ -102,12 +103,12 @@ public class Game extends JPanel {
 			}
 		}
 		
-		for (int i = 0; i < paths.size(); i++) {
-			for (PixelCoordinates pixelCoordinates : paths.get(i)) {
-				g.setColor(Color.BLACK);
-				g.fillOval((int) pixelCoordinates.xCoordinate - 1, (int) pixelCoordinates.yCoordinate - 1, 2, 2);
-			}
-		}
+//		for (int i = 0; i < paths.size(); i++) {
+//			for (PixelCoordinates pixelCoordinates : paths.get(i)) {
+//				g.setColor(Color.BLACK);
+//				g.fillOval((int) pixelCoordinates.xCoordinate - 1, (int) pixelCoordinates.yCoordinate - 1, 2, 2);
+//			}
+//		}
 		collided = checkCollision();
 	}
 	
@@ -126,12 +127,22 @@ public class Game extends JPanel {
 		for (int i = 0; i < 5; i++) {
 			targetX = randomGenerator.nextInt(200) + 170;
 			targetY = randomGenerator.nextInt(80);
-			
 			targets.add(new Block(targetX, targetY, 15, 15, crate));
-		}
-		
-		
-		
+			Rectangle bounds = targets.get(i).getBounds();
+			
+			if (targets.size() > 1) {			
+				for (int j = 0; j < targets.size()-1; j++) {
+					if (targets.get(j).getBounds().intersects(bounds)) {
+						targets.remove(i);
+						targetX = randomGenerator.nextInt(200) + 170;
+						targetY = randomGenerator.nextInt(80);
+						targets.add(new Block(targetX, targetY, 15, 15, crate));
+						bounds = targets.get(i).getBounds();
+						j = 0;						
+					} 
+				}				
+			}			
+		}		
 	}
 	
 //	public void drawX(Rectangle rect, Graphics g) {
@@ -177,7 +188,7 @@ public class Game extends JPanel {
 					
 					RealCoordinates someRealCoords = launcher.getProjectiles().get(i).getCurrentPosition();
 					pows.add(new Pow(someRealCoords, pow));
-					
+					pow_meow.play("meow.wav");
 					// End POW animation
 					
 //					Projectile testProjectile = launcher.getProjectiles().get(i);				

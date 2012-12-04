@@ -8,8 +8,9 @@ import javax.swing.*;
 public class DisplayPanel extends JFrame {
 	
 	Game game;
-	
+	static CPSound bgMusic = new CPSound();
 	public DisplayPanel() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Fire ze missiles!");
 	//	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -25,7 +26,6 @@ public class DisplayPanel extends JFrame {
 	
 	public static void main(String[] args) {
 		DisplayPanel display = new DisplayPanel();
-		CPSound sound = new CPSound();
-		sound.run();
+	//	bgMusic.play("nyancat.wav");
 	}
 }

@@ -17,6 +17,7 @@ public class ControlPanel extends JPanel {
 
 	
 	private static final long serialVersionUID = 1L;
+	CPSound cannon_sound = new CPSound();
 	Game game;
 	JSlider forceSliderInput = new JSlider(40, 80);
 	JSlider angleSliderInput = new JSlider(5, 85);
@@ -69,6 +70,7 @@ public class ControlPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == launchButton) {
+				cannon_sound.play("cannon.wav");
 				int velocity = Integer.valueOf(forceSliderInput.getValue());
 				int angle = Integer.valueOf(angleSliderInput.getValue());
 				game.launch(angle, velocity);

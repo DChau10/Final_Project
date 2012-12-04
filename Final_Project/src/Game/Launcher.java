@@ -114,11 +114,21 @@ public class Launcher {
 		}
 	}
 	public void DrawProjectile(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		
 		int i = 0;
 		for (Projectile projectile : projectiles) {
+			PixelCoordinates pixelCoords = new PixelCoordinates(projectile.getCurrentPosition());
+//			g2d.translate(pixelCoords.xCoordinate, pixelCoords.yCoordinate);
+//			g2d.rotate(Math.toRadians(projectile.getCurrentAngle()));
 			
 			projectile.drawFollowPath(g);
+			
 			projectile.Draw(g);
+			
+//			g2d.rotate(Math.toRadians(360 - projectile.getCurrentAngle()));
+//			g2d.translate(-pixelCoords.xCoordinate, -pixelCoords.yCoordinate);
+			
 	//		System.out.println("Projectile: " + i + " should draw");
 			i++;
 		}
