@@ -59,6 +59,7 @@ public class CPSound implements Runnable {
 			}
 			if (nBytesRead >= 0)
 			{
+				@SuppressWarnings("unused")
 				int     nBytesWritten = line.write(abData, 0, nBytesRead);
 			}
 		}

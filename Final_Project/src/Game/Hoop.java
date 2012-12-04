@@ -1,12 +1,12 @@
 package Game;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 
 public class Hoop extends Target{
 	
 	private int radius;
+	@SuppressWarnings("unused")
 	private int width, height;
 	RealCoordinates coords;
 	
@@ -47,6 +47,7 @@ public class Hoop extends Target{
 	public void Draw(Graphics g) {
 		PixelCoordinates pixelCoords = new PixelCoordinates(coords);
 		PixelCoordinates pixelCoords2 = new PixelCoordinates(new RealCoordinates(x + radius, y + radius));
+		@SuppressWarnings("unused")
 		int hypotenuse = (int)(Math.sqrt(x*x + y*y));
 		g.drawLine((int)pixelCoords.xCoordinate, (int)pixelCoords.yCoordinate, (int)(pixelCoords2.xCoordinate), (int)(pixelCoords2.yCoordinate));
 	//	g.drawLine(x, y, x + radius, y + radius);
