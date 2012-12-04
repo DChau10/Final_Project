@@ -24,7 +24,7 @@ public class Pow {
 		lifeTimer -= Game.TIME;
 		PixelCoordinates pixelCoords = new PixelCoordinates(currentPosition);
 		g.setColor(Color.BLACK);
-		g.drawImage(image, (int) pixelCoords.xCoordinate - 20, (int) pixelCoords.yCoordinate - 20, 40, 40, null);
+		g.drawImage(image, (int) pixelCoords.xCoordinate - 40, (int) pixelCoords.yCoordinate - 40, 80, 80, null);
 	}
 	
 }

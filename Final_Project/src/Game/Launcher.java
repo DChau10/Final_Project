@@ -23,31 +23,6 @@ public class Launcher {
 		this.image = image;	
 		angle = 45;
 	}
-
-	//set initial positions
-//	private void setInitialPosition(RealCoordinates somePosition) {
-//		initialPosition = somePosition;
-//		currentPosition = somePosition;
-//	}
-	
-	//find velocity components
-//	public void calculateVelocity(int initialVelocity, int angle) {
-//		velocityComponents = new ArrayList<Double>();
-//		
-//		double angle_radians = Math.toRadians(angle);
-//		velocityComponents.add((initialVelocity * Math.cos(angle_radians)));
-//		velocityComponents.add((initialVelocity * Math.sin(angle_radians)));
-//		
-//	//	return velocityComponents;
-//	}
-	
-//	public void incrementTimeBy(double timestep) {
-//		timeElapsed += timestep;
-//		// update position
-//		double xCoordinate = velocityComponents.get(0) * timeElapsed + initialPosition.xCoordinate;
-//		double yCoordinate = velocityComponents.get(1) * timeElapsed + 0.5 * (-9.8) * Math.pow(timeElapsed, 2) + initialPosition.yCoordinate;
-//		currentPosition.setXY(xCoordinate, yCoordinate);
-//	}
 	
 	//determine where the projectile will land
 	public ArrayList<Integer> calculateDestination(Projectile projectile) {
@@ -77,7 +52,6 @@ public class Launcher {
 	
 	public void addProjectiles(Projectile projectile) {
 		projectiles.add(projectile);
-	//	projectiles.get(projectiles.size()-1).setVelocityComponents(velocityComponents);
 	}
 	
 	public void removeProjectiles(int index) {
@@ -97,15 +71,12 @@ public class Launcher {
 		
 		g2d.translate(origin.xCoordinate, origin.yCoordinate);
 		g2d.rotate(Math.toRadians(angle));
-//		g.drawRect((int) (origin.xCoordinate - origin.getPixelLength(10)), (int) (origin.xCoordinate - origin.getPixelLength(10)), 
-//				(int) (origin.getPixelLength(20)), (int) (origin.getPixelLength(20)));
 		g.drawImage(image,(int) (0 - origin.getPixelLength(30)), (int) (0 - origin.getPixelLength(30)), 
 				(int) (origin.getPixelLength(60)), (int) (origin.getPixelLength(60)), null);
 		
 		
 		g2d.rotate(Math.toRadians(360 -angle));
 		g2d.translate(-origin.xCoordinate, -origin.yCoordinate);
-	//	g.drawImage(image, x, y, width, height, observer)
 	}
 	
 	public void incrementProjectileTime(double time) {
@@ -114,23 +85,10 @@ public class Launcher {
 		}
 	}
 	public void DrawProjectile(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
 		
-		int i = 0;
-		for (Projectile projectile : projectiles) {
-			PixelCoordinates pixelCoords = new PixelCoordinates(projectile.getCurrentPosition());
-//			g2d.translate(pixelCoords.xCoordinate, pixelCoords.yCoordinate);
-//			g2d.rotate(Math.toRadians(projectile.getCurrentAngle()));
-			
-			projectile.drawFollowPath(g);
-			
+		for (Projectile projectile : projectiles) {		
+			projectile.drawFollowPath(g);			
 			projectile.Draw(g);
-			
-//			g2d.rotate(Math.toRadians(360 - projectile.getCurrentAngle()));
-//			g2d.translate(-pixelCoords.xCoordinate, -pixelCoords.yCoordinate);
-			
-	//		System.out.println("Projectile: " + i + " should draw");
-			i++;
 		}
 	}	
 }

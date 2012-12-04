@@ -5,7 +5,7 @@ public class Block extends Target {
 	
 	private int length, width;
 	RealCoordinates realCoords, realCoords2;
-	PixelCoordinates pixelCoords, pixelCoords2;
+	public PixelCoordinates pixelCoords, pixelCoords2;
 	private Image image;
 	
 	// x and y denotes TOP LEFT CORNER of box, NOT CENTER
@@ -22,11 +22,10 @@ public class Block extends Target {
 		pixelCoords = new PixelCoordinates(realCoords);
 		pixelCoords2 = new PixelCoordinates(realCoords2);
 		PixelCoordinates pixelCoordOrigin = new PixelCoordinates(new RealCoordinates(0,0));
-		System.out.println(pixelCoords2.xCoordinate + " " + pixelCoords2.yCoordinate);
+		System.out.println("Box coords: " + x + " " + y);
 		pixelCoords2.xCoordinate = pixelCoords2.xCoordinate - pixelCoordOrigin.xCoordinate;
 		pixelCoords2.yCoordinate = Math.abs(pixelCoords2.yCoordinate - pixelCoordOrigin.yCoordinate);
-		System.out.println(pixelCoordOrigin.xCoordinate + " " + pixelCoordOrigin.yCoordinate);
-		System.out.println(pixelCoords2.xCoordinate + " " + pixelCoords2.yCoordinate);
+	
 	}
 	
 	public Rectangle getBounds() {
@@ -35,13 +34,8 @@ public class Block extends Target {
 	}
 	
 	@Override
-	public void Draw(Graphics g) {
-		
+	public void Draw(Graphics g) {		
 		g.setColor(Color.BLACK);
-	//	g.drawRect((int)pixelCoords.xCoordinate, (int)pixelCoords.yCoordinate, (int)pixelCoords2.xCoordinate, (int)pixelCoords2.yCoordinate);
-		//g.drawImage((int)pixelCoords.xCoordinate, (int)pixelCoords.yCoordinate, (int)pixelCoords2.xCoordinate, (int)pixelCoords2.yCoordinate, null);
-		g.drawImage(image, (int)pixelCoords.xCoordinate, (int)pixelCoords.yCoordinate, (int)pixelCoords2.xCoordinate, (int)pixelCoords2.yCoordinate, null);
-		
+		g.drawImage(image, (int)pixelCoords.xCoordinate, (int)pixelCoords.yCoordinate, (int)pixelCoords2.xCoordinate, (int)pixelCoords2.yCoordinate, null);		
 	}
-
 }

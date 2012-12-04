@@ -1,11 +1,9 @@
 package Game;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -19,47 +17,68 @@ public class ControlPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	CPSound cannon_sound = new CPSound();
 	Game game;
-	JSlider forceSliderInput = new JSlider(40, 80);
+	JSlider velocitySliderInput = new JSlider(40, 80);
 	JSlider angleSliderInput = new JSlider(5, 85);
-	JTextField forceInput = new JTextField(5);
+	JTextField velocityInput = new JTextField(5);
 	JTextField angleInput = new JTextField(5);
 	JButton launchButton = new JButton("Launch");
 	JButton generateButton = new JButton("Generate Targets");
-	JButton pathButton = new JButton("Show Path");
+	JButton pathButton = new JButton("Path On/Off");
 	SliderListener sliderListener = new SliderListener();
 	TextboxListener textboxListener = new TextboxListener();
+	ButtonListener buttonListener = new ButtonListener();
+	
+	JPanel buttonPanel = new JPanel();
+	JPanel anglePanel = new JPanel();
+	JPanel velocityPanel = new JPanel();
 	
 	public ControlPanel(Game game) {
 		this.game = game;
 		
 		
-		add(new JLabel("Velocity (m/s): "));
-		forceSliderInput.setMajorTickSpacing(5);
-		forceSliderInput.setPaintTicks(true);
-		forceSliderInput.createStandardLabels(5);
-		forceSliderInput.setPaintLabels(true);
-		forceSliderInput.addChangeListener(sliderListener);
-		add(forceSliderInput);
-		add(new JLabel("Angle (degrees): "));
+		
+		velocitySliderInput.setMajorTickSpacing(5);
+		velocitySliderInput.setPaintTicks(true);
+		velocitySliderInput.createStandardLabels(5);
+		velocitySliderInput.setPaintLabels(true);
+		velocitySliderInput.addChangeListener(sliderListener);		
+		velocityInput.addActionListener(textboxListener);
+		
+		velocityPanel.setLayout(new BorderLayout());
+		velocityPanel.add(velocitySliderInput, BorderLayout.CENTER);
+		velocityPanel.add(velocityInput, BorderLayout.SOUTH);
+		velocityPanel.setBorder(new TitledBorder(new EtchedBorder(), "Velocity (m/s) "));
+		
+	
+		
 		angleSliderInput.setMajorTickSpacing(10);
 		angleSliderInput.createStandardLabels(10);
 		angleSliderInput.setPaintLabels(true);
 		angleSliderInput.setPaintTicks(true);
 		angleSliderInput.addChangeListener(sliderListener);
-		add(angleSliderInput);
-		launchButton.addActionListener(new ButtonListener());
-		add(launchButton);
-		generateButton.addActionListener(new ButtonListener());
-		add(generateButton);
-		
-		forceInput.addActionListener(textboxListener);
-		add(forceInput);
 		angleInput.addActionListener(textboxListener);
-		add(angleInput);
+		
+		anglePanel.setLayout(new BorderLayout());
+		anglePanel.add(angleSliderInput, BorderLayout.CENTER);		
+		anglePanel.add(angleInput, BorderLayout.SOUTH);
+		anglePanel.setBorder(new TitledBorder(new EtchedBorder(), "Angle (degrees) "));
 		
 		
-		// set border
-		setBorder(new TitledBorder(new EtchedBorder(), "Control Panel"));
+		launchButton.addActionListener(buttonListener);
+		pathButton.addActionListener(buttonListener);
+		generateButton.addActionListener(buttonListener);
+		
+		GridLayout buttonGrid = new GridLayout(0, 3);
+		buttonPanel.setLayout(buttonGrid);
+		buttonPanel.add(launchButton);
+		buttonPanel.add(generateButton);
+		buttonPanel.add(pathButton);
+		
+		GridLayout controlGrid = new GridLayout(0, 3);
+		setLayout(controlGrid);
+		add(velocityPanel);
+		add(anglePanel);
+		add(buttonPanel);
 		
 		// setVisible
 		setVisible(true);
@@ -71,26 +90,26 @@ public class ControlPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == launchButton) {
 				cannon_sound.play("cannon.wav");
-				int velocity = Integer.valueOf(forceSliderInput.getValue());
+				int velocity = Integer.valueOf(velocitySliderInput.getValue());
 				int angle = Integer.valueOf(angleSliderInput.getValue());
-				game.launch(angle, velocity);
-			//	game.launch(Integer.parseInt(angleInput.getText()), Integer.parseInt(forceInput.getText()));
+				game.launch(angle, velocity);			
 			}
 			if (e.getSource() == generateButton) {
 				game.generateTargets();
 			}
 			if (e.getSource() == pathButton) {
-				
+				if (game.draw_path == false) { game.draw_path = true;}
+				else if (game.draw_path == true) { game.draw_path = false;}
 			}
 		}
 	}
 	
 	private class SliderListener implements ChangeListener {
 		public void stateChanged(ChangeEvent e) {
-			game.updatePath(angleSliderInput.getValue(), forceSliderInput.getValue());
+			game.updatePath(angleSliderInput.getValue(), velocitySliderInput.getValue());
 			game.launcher.updateAngle(angleSliderInput.getValue());
 			
-			forceInput.setText(Integer.toString(forceSliderInput.getValue()));
+			velocityInput.setText(Integer.toString(velocitySliderInput.getValue()));
 			angleInput.setText(Integer.toString(angleSliderInput.getValue()));
 		}		
 	}
@@ -100,7 +119,7 @@ public class ControlPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			angleSliderInput.setValue(Integer.parseInt(angleInput.getText()));
-			forceSliderInput.setValue(Integer.parseInt(forceInput.getText()));
+			velocitySliderInput.setValue(Integer.parseInt(velocityInput.getText()));
 			
 		}
 		

@@ -4,11 +4,8 @@ package Game;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -16,15 +13,13 @@ import javax.swing.*;
 public class Game extends JPanel {	
 			
 	private static final long serialVersionUID = 1L;
-	
+	public boolean draw_path = false;
 	static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	public static final double TIME = (1000.0 / 60.0) / 1000.0;
 	CPSound pow_meow = new CPSound();
 	int numTries;
 	public boolean collided = false, generated = false;
-//	Block box = new Block(170, 0, 100, 70);
-//	Rectangle b = new Rectangle(100, 100, 40, 20);
 	public Launcher launcher;
 	PixelCoordinates origin = new PixelCoordinates(new RealCoordinates(0, 0));
 	ProjectilePath projectilePath = new ProjectilePath(45, 60, TIME);
@@ -38,21 +33,21 @@ public class Game extends JPanel {
 	Dimension backgroundSize;
 	int targetX, targetY;
 	
+	TargetPanel targetPanel;
+	
 	public Game() {
 		// init
 		setPreferredSize(new Dimension(1024, 640));
 		loadImages();
-		
 		launcher = new Launcher(cannon);
 		
 		Timer timer = new Timer(1000/60, drawFrame);
 		timer.start();
 		
-	//	System.out.println(origin.yCoordinate);
-		
 		// setVisible
 		setVisible(true);
 	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	
@@ -72,10 +67,10 @@ public class Game extends JPanel {
 		}
 				
 		// draw path
-		projectilePath.draw(g);		
-		
-	
-		
+		if (draw_path == true){
+			projectilePath.draw(g);		
+		}
+			
 		// draw each projectile
 		launcher.DrawProjectile(g);
 		
@@ -112,6 +107,9 @@ public class Game extends JPanel {
 		collided = checkCollision();
 	}
 	
+	public int getFrameHeight() {
+		return getHeight();
+	}
 	public void loadImages() {
 		background = new ImageIcon(this.getClass().getResource("Background.jpg")).getImage();
 		cannonball = new ImageIcon(this.getClass().getResource("nyan.png")).getImage();
@@ -122,8 +120,6 @@ public class Game extends JPanel {
 	
 	public void generateTargets() {
 		targets.clear();
-		//bounds: x: 170 - 270
-		//y: 0 - 70
 		for (int i = 0; i < 5; i++) {
 			targetX = randomGenerator.nextInt(200) + 170;
 			targetY = randomGenerator.nextInt(80);
@@ -145,23 +141,12 @@ public class Game extends JPanel {
 		}		
 	}
 	
-//	public void drawX(Rectangle rect, Graphics g) {
-//		g.setColor(Color.CYAN);
-//		PixelCoordinates boxness_FUCK = new PixelCoordinates(new RealCoordinates(rect.x, rect.y));
-//		PixelCoordinates shit = new PixelCoordinates(new RealCoordinates(rect.width, rect.height));
-//		PixelCoordinates shtagain = new PixelCoordinates(new RealCoordinates(0,0));
-//		shit.xCoordinate -= shtagain.xCoordinate;
-//		shit.yCoordinate = Math.abs(shit.yCoordinate - shtagain.yCoordinate);
-//		
-//		g.drawRect((int) boxness_FUCK.xCoordinate, (int) boxness_FUCK.yCoordinate, (int) shit.xCoordinate, (int) shit.yCoordinate);
-//	//	System.out.println("assfuck" + rect.x + " " + rect.y + " , " + rect.width + "  " + rect.height);
-//		
-//		g.drawRect(rect.x, rect.y, rect.width, rect.height);
-//		
-//	}
+	public ArrayList<Block> getTargets() {
+		return targets;
+	}
+
 	
 	public void launch(int angle, int velocity) {
-	//	launcher.calculateVelocity(velocity, angle);
 		launcher.addProjectiles(new Projectile(angle, velocity, cannonball));
 	}
 	public void updatePath(int angle, int velocity) {
@@ -174,28 +159,16 @@ public class Game extends JPanel {
 			Rectangle boundsForShot = launcher.getProjectiles().get(i).getBounds().getBounds();
 			
 			for (int j = 0; j < targets.size(); j++) {
-				Rectangle boundsForBox = targets.get(j).getBounds().getBounds();
-			
-			
-			
+				Rectangle boundsForBox = targets.get(j).getBounds().getBounds();			
 			
 				if (boundsForShot.intersects(boundsForBox)) {
-					System.out.println("Collision detected");
 					
-					paths.add(launcher.getProjectiles().get(i).getTrajectory());				
+					paths.add(launcher.getProjectiles().get(i).getTrajectory());							
 					
-					// Start POW animation
-					
+					// Start POW animation					
 					RealCoordinates someRealCoords = launcher.getProjectiles().get(i).getCurrentPosition();
 					pows.add(new Pow(someRealCoords, pow));
 					pow_meow.play("meow.wav");
-					// End POW animation
-					
-//					Projectile testProjectile = launcher.getProjectiles().get(i);				
-					
-	//				System.out.println(testProjectile.getBounds().x + " " + testProjectile.getBounds().y + " , " + testProjectile.getBounds().width + "  " + testProjectile.getBounds().height);
-	//				System.out.println(boundsForShot.x + " " + boundsForShot.y + " , " + boundsForShot.width + "  " + boundsForShot.height);
-	//				System.out.println(box.getBounds().x + " " + box.getBounds().y + "  ,  " +  box.getBounds().width + "  " + box.getBounds().height);
 					
 					launcher.removeProjectiles(i);
 					targets.remove(j);
@@ -207,28 +180,13 @@ public class Game extends JPanel {
 		}		
 		return false;
 	}	
-	
-//	public boolean checkPreLaunchCollision(Block target) {
-//		for (int i = 0; i < projectilePath.pp.size(); i++) {
-//			if (projectilePath.pp.get(i).getBounds().intersects(target.getBounds())) {
-//				System.out.println("Heyo");
-//				return true;
-//			}
-//		}
-//		return false;
-//		
-//	}
-//	public boolean checkHoop(Projectile projectile, Target target) {
-//		if (checkCollision()) 
-//			return true;
-//		return false;
-//	}
+
 	
 	ActionListener drawFrame = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			launcher.incrementProjectileTime(TIME);
 			repaint();
 		}
-	};
+	};	
 	
 }
